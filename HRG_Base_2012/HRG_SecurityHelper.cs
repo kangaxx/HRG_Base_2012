@@ -18,7 +18,8 @@ using System.IO;
 
 namespace HRG_BaseLibrary_2012
 {
-    public class SecurityHelper
+    #region 字符串加解密功能类
+    public static class SecurityHelper
     {
         #region Des 加/解密
 
@@ -326,4 +327,5 @@ namespace HRG_BaseLibrary_2012
         }
         #endregion
     }
+    #endregion
 }
