@@ -12,7 +12,7 @@ using System.Dynamic;
 
 namespace HRG_BaseLibrary_2012
 {
-    public static class GlobalVariables
+    public class GlobalVariables
     {
         public string STRING_SQLTYPE_FLAG = "sqltype"; //数据库类型标签名称
         public string STRING_SQLTYPE_NAME_MYSQL = "mysql"; //数据库类型标签值， mysql
@@ -63,7 +63,26 @@ namespace HRG_BaseLibrary_2012
 
         #endregion
 
+        #region 字符串解析
 
+        //从一串配置字符串中获取指定的配置值 ,tag是希望获取的配置的名称， splitChar各个配置项之间的分割符号，默认的配置名称与配置值之间的分割是等号 =
+        public static string GetSettingValueByName(string source, string tag, char[] splitChar, char flag = '=')
+        {
+            string[] configs = source.Split(splitChar, StringSplitOptions.RemoveEmptyEntries);
+            foreach (string str in configs)
+            {
+                string[] aConfigValue = str.Split(new char[]{flag}, StringSplitOptions.RemoveEmptyEntries);
+                if (aConfigValue.Length == 2) //这里的长度恒为2， 没有特殊理由不会变。
+                {
+                    if (aConfigValue[0].Trim() == tag.Trim())
+                        return aConfigValue[1].Trim();
+                }
+
+            }
+            return "";
+        }
+
+        #endregion
     }
 
     #region 转换数据表到动态类的功能
@@ -127,7 +146,25 @@ namespace HRG_BaseLibrary_2012
     }
     #endregion
 
-#region Log日志类
+    #region Log日志类
 
-#endregion
+    #endregion
+
+    #region config文件类
+    public static class ConfigureHelper
+    {
+        public static string GetConfigStringByName(string name)
+        {
+
+
+            return "123";
+        }
+
+
+
+
+    }
+    #endregion
+
+
 }
