@@ -12,11 +12,17 @@ using System.Dynamic;
 
 namespace HRG_BaseLibrary_2012
 {
-    public class GlobalVariables
+    public sealed class GlobalVariables
     {
-        public string STRING_SQLTYPE_FLAG = "sqltype"; //数据库类型标签名称
-        public string STRING_SQLTYPE_NAME_MYSQL = "mysql"; //数据库类型标签值， mysql
-        public string STRING_SQLTYPE_NAME_OLEDB = "oledb"; //数据库类型标签值， OLEDB
+        public static string STRING_SQLTYPE_FLAG = "sqltype"; //数据库类型标签名称
+        public static string STRING_SQLTYPE_NAME_MYSQL = "mysql"; //数据库类型标签值， mysql
+        public static string STRING_SQLTYPE_NAME_OLEDB = "oledb"; //数据库类型标签值， OLEDB
+        public static string STRING_SQL_CONNECTION_TAG_USER = "user id"; //数据库链接信息标签， 用户名
+        public static string STRING_SQL_CONNECTION_TAG_SERVER = "server"; //数据库链接信息标签，服务器
+        public static string STRING_SQL_CONNECTION_TAG_PASSWORD = "password"; //数据库链接信息标签，密码
+        public static string STRING_SQL_CONNECTION_TAG_DATABASE = "database"; //数据库链接信息标签, 数据库
+        public static string STRING_SQL_CONNECTION_TAG_DATASOURCE = "Data Source"; //数据库链接信息标签, oledb数据源
+        public static string STRING_SQL_CONNECTION_TAG_PROVIDER = "Provider"; //数据库链接信息标签, oledb类型
     }
 
 
@@ -150,21 +156,6 @@ namespace HRG_BaseLibrary_2012
 
     #endregion
 
-    #region config文件类
-    public static class ConfigureHelper
-    {
-        public static string GetConfigStringByName(string name)
-        {
-
-
-            return "123";
-        }
-
-
-
-
-    }
-    #endregion
 
 
 }
