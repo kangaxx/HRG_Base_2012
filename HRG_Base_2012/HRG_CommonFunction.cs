@@ -10,8 +10,10 @@ using System.Data.SqlClient;
 using System.Reflection;
 using System.Dynamic;
 
+
 namespace HRG_BaseLibrary_2012
 {
+    #region 全局通用变量类
     public sealed class GlobalVariables
     {
         public static string STRING_SQLTYPE_FLAG = "sqltype"; //数据库类型标签名称
@@ -23,9 +25,13 @@ namespace HRG_BaseLibrary_2012
         public static string STRING_SQL_CONNECTION_TAG_DATABASE = "database"; //数据库链接信息标签, 数据库
         public static string STRING_SQL_CONNECTION_TAG_DATASOURCE = "Data Source"; //数据库链接信息标签, oledb数据源
         public static string STRING_SQL_CONNECTION_TAG_PROVIDER = "Provider"; //数据库链接信息标签, oledb类型
+        public static int INT_SQL_PARAM_DIRECTION_INPUT = 1;  //输入参数类型
+        public static int INT_SQL_PARAM_DIRECTION_OUTPUT = 2;  //输出参数类型
+        public static int INT_SQL_PARAM_DIRECTION_RETURN = 3;  //返回值参数类型
     }
+    #endregion
 
-
+    #region 基本功能类，包括一些文件，字符串等等的c#基本元素处理功能，原则上一律提供静态函数，复杂功能不要添加在本类
     public static class CommonFunction
     {
         #region Json转换
@@ -67,6 +73,17 @@ namespace HRG_BaseLibrary_2012
             return t;
         }
 
+
+        /// 反序列化JSON转list对象序列
+        public static List<T> DeserializeJsonToList<T>(string json) where T : class
+        {
+            JsonSerializer serializer = new JsonSerializer();
+            StringReader sr = new StringReader(json);
+            object o = serializer.Deserialize(new JsonTextReader(sr), typeof(List<T>));
+            List<T> list = o as List<T>;
+            return list;
+        }
+
         #endregion
 
         #region 字符串解析
@@ -90,6 +107,7 @@ namespace HRG_BaseLibrary_2012
 
         #endregion
     }
+    #endregion
 
     #region 转换数据表到动态类的功能
     //数据集类型

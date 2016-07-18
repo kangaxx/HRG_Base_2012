@@ -326,6 +326,19 @@ namespace HRG_BaseLibrary_2012
             return myResult;
         }
         #endregion
+
+        #region 数据库链接统一功能
+        public static string EncryptDBConn(string encryptString)
+        {
+            return EncryptAES(encryptString);
+        }
+
+
+        public static string DecryptDBConn(string decryptString)
+        {
+            return DecryptAES(decryptString);
+        }
+        #endregion
     }
     #endregion
 }
