@@ -2,3 +2,7 @@ E:\code\vs2012\HRG_Base_2012\HRG_Base_2012\bin\Release\HRG_Base_2012.dll
 E:\code\vs2012\HRG_Base_2012\HRG_Base_2012\bin\Release\HRG_Base_2012.pdb
 E:\code\vs2012\HRG_Base_2012\HRG_Base_2012\obj\Release\HRG_Base_2012.dll
 E:\code\vs2012\HRG_Base_2012\HRG_Base_2012\obj\Release\HRG_Base_2012.pdb
+E:\code\vs2012\HRG_Base_2012\HRG_Base_2012\bin\Release\Newtonsoft.Json.dll
+E:\code\vs2012\HRG_Base_2012\HRG_Base_2012\bin\Release\Newtonsoft.Json.xml
+E:\code\vs2012\HRG_Base_2012\HRG_Base_2012\bin\Release\log4net.dll
+E:\code\vs2012\HRG_Base_2012\HRG_Base_2012\bin\Release\log4net.xml

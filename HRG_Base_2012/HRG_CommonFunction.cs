@@ -9,6 +9,7 @@ using Newtonsoft.Json;
 using System.Data.SqlClient;
 using System.Reflection;
 using System.Dynamic;
+using log4net;
 
 
 namespace HRG_BaseLibrary_2012
@@ -28,6 +29,7 @@ namespace HRG_BaseLibrary_2012
         public static int INT_SQL_PARAM_DIRECTION_INPUT = 1;  //输入参数类型
         public static int INT_SQL_PARAM_DIRECTION_OUTPUT = 2;  //输出参数类型
         public static int INT_SQL_PARAM_DIRECTION_RETURN = 3;  //返回值参数类型
+        public static ILog LOG_MANAGER;
     }
     #endregion
 

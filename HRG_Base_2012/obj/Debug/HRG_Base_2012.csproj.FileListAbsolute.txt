@@ -4,3 +4,6 @@ E:\code\vs2012\HRG_Base_2012\HRG_Base_2012\obj\Debug\HRG_Base_2012.dll
 E:\code\vs2012\HRG_Base_2012\HRG_Base_2012\obj\Debug\HRG_Base_2012.pdb
 E:\code\vs2012\HRG_Base_2012\HRG_Base_2012\bin\Debug\Newtonsoft.Json.dll
 E:\code\vs2012\HRG_Base_2012\HRG_Base_2012\bin\Debug\Newtonsoft.Json.xml
+E:\code\vs2012\HRG_Base_2012\HRG_Base_2012\bin\Debug\log4net.dll
+E:\code\vs2012\HRG_Base_2012\HRG_Base_2012\bin\Debug\log4net.xml
+E:\code\vs2012\HRG_Base_2012\HRG_Base_2012\obj\Debug\HRG_Base_2012.csprojResolveAssemblyReference.cache
