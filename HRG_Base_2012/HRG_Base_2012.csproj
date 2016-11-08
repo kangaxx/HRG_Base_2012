@@ -50,12 +50,15 @@
   <ItemGroup>
     <Compile Include="HRG_CharacterHelper.cs" />
     <Compile Include="HRG_CommonFunction.cs" />
+    <Compile Include="HRG_TF_IDF.cs" />
     <Compile Include="HRG_SecurityHelper.cs" />
     <Compile Include="HRG_XmlHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Logger.config" />
+    <None Include="Logger.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
