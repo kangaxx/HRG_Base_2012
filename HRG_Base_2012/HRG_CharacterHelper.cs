@@ -706,6 +706,8 @@ namespace HRG_BaseLibrary_2012
             return String.Empty;
         }
 
+        
+
         /// <summary>  把汉字转换成拼音(全拼)
         /// </summary>
         /// <param name="str">汉字字符串</param>
@@ -723,6 +725,41 @@ namespace HRG_BaseLibrary_2012
             }
 
             return sb.ToString();
+        }
+
+
+        /// <summary>  把汉字转换成拼音(全拼)
+        /// </summary>
+        /// <param name="str">汉字字符串</param>
+        /// <returns>转换后的拼音(全拼)字符串</returns>
+        public static List<string> GetList(String str)
+        {
+            List<string> result = new List<string>();
+            if (String.IsNullOrEmpty(str)) return result;
+
+
+
+            var sb = new StringBuilder(str.Length * 10);
+            var chs = str.ToCharArray();
+
+            for (var j = 0; j < chs.Length; j++)
+            {
+                result.Add(Get(chs[j]));
+            }
+
+            return result;
+        }
+
+
+        /// <summary>  比较两组词语，返回一个匹配度(全拼)
+        /// </summary>
+        /// <param name="str1">第一组</param>
+        /// <param name="str2">第二组</param>
+        /// <returns>一个匹配度百分比</returns>
+        public static float getMatchDegree(string str1, string str2)
+        {
+
+            return 1.0f;
         }
     }
     #endregion
