@@ -10,7 +10,7 @@ using System.Data.SqlClient;
 using System.Reflection;
 using System.Dynamic;
 using log4net;
-
+using System.Configuration;
 
 namespace HRG_BaseLibrary_2012
 {
@@ -26,12 +26,35 @@ namespace HRG_BaseLibrary_2012
         public static string STRING_SQL_CONNECTION_TAG_DATABASE = "database"; //数据库链接信息标签, 数据库
         public static string STRING_SQL_CONNECTION_TAG_DATASOURCE = "Data Source"; //数据库链接信息标签, oledb数据源
         public static string STRING_SQL_CONNECTION_TAG_PROVIDER = "Provider"; //数据库链接信息标签, oledb类型
+        public static string STRING_HRG_WEBBROWSE_AUTOSTART_REGNAME = "HRG_browser"; //框架浏览器注册表编号
+        public static string STRING_HRG_WEBBROWSE_AUTOSTART_REGNAME_2017 = "HRG_browser_2017"; //自行开发
+        public static int INT_HRG_WEBBROWSE_CONFIGFORM_HEIGHT = 200;
+        
+
         public static int INT_SQL_PARAM_DIRECTION_INPUT = 1;  //输入参数类型
         public static int INT_SQL_PARAM_DIRECTION_OUTPUT = 2;  //输出参数类型
         public static int INT_SQL_PARAM_DIRECTION_RETURN = 3;  //返回值参数类型
-        public static ILog LOG_MANAGER;
+        public static ILog LOG_MANAGER; //日志功能
+        public static int INT_ROOMLIST_LIMIT = 5;           //多层地图演示功能近似单词列表长度
+        public static int INT_WEBSOCKED_RETRY_TIME = 5;     //尝试对websocket端口信息发送重复次数
+        public static int INT_BROWSER_TOOLBAR_ANIMATE_INTERVAL = 10;     //工具栏移动动画效果时间间隔
+        public static int INT_BROWSER_TOOLBAR_ANIMATE_DISTANCE = 5;      //工具栏移动动画效果，每一个时间片断内移动的幅度
+
+        public enum JOYSTICK_ARROW //手柄方向按键
+        {
+            up = 0,
+            down = 1,
+            left = 2,
+            right = 3,
+            stop = 4
+        }
+        public enum JOYSTICK_KEY_PUSH_STATE //手柄按键按压状态
+        {
+            release = 0, //释放状态
+            push = 1, //按压状态
+        }
     }
-    #endregion
+    #endregion  
 
     #region 基本功能类，包括一些文件，字符串等等的c#基本元素处理功能，原则上一律提供静态函数，复杂功能不要添加在本类
     public static class CommonFunction
@@ -108,6 +131,21 @@ namespace HRG_BaseLibrary_2012
         }
 
         #endregion
+
+        #region 处理系统自带config文件的appSettings字节
+        public static void UpdateAppSettings(string name, string value)
+        {
+            string assemblyConfigFile = Assembly.GetEntryAssembly().Location;
+            Configuration config = ConfigurationManager.OpenExeConfiguration(assemblyConfigFile);    //获取appSettings节点    
+            AppSettingsSection appSettings = (AppSettingsSection)config.GetSection("appSettings");
+            //删除name，然后添加新值    
+            appSettings.Settings.Remove("Initialed");
+            appSettings.Settings.Add("Initialed", "true");
+            config.Save();
+
+        }
+
+        #endregion
     }
     #endregion
 
@@ -175,7 +213,6 @@ namespace HRG_BaseLibrary_2012
     #region Log日志类
 
     #endregion
-
 
 
 }

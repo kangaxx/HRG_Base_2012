@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <StartAction>Program</StartAction>
+    <StartProgram>E:\code\svnCode\CEF3_3.2623.1397整合版WinForm%28可加载Flash并且无闪烁命令行%29\CefGlue.Client\bin\Debug\Xilium.CefGlue.Client.exe</StartProgram>
+  </PropertyGroup>
+</Project>

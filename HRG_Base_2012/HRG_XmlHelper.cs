@@ -41,7 +41,7 @@ namespace HRG_BaseLibrary_2012
         }
 
         //设置文件路径
-        public void setFileName(string fileName)
+        public void SetFileName(string fileName)
         {
             _fileName = fileName;
             doc.Load(_fileName);
@@ -49,16 +49,16 @@ namespace HRG_BaseLibrary_2012
         }
 
         //查找根节点
-        private XmlElement root()
+        private XmlElement Root()
         {
             return doc.DocumentElement;
         }
 
         //遍历一级节点
-        private List<XmlElement> getElementsLevelOne()
+        private List<XmlElement> GetElementsLevelOne()
         {
             List<XmlElement> result = new List<XmlElement>();
-            foreach (XmlNode elem in root().ChildNodes)
+            foreach (XmlNode elem in Root().ChildNodes)
             {
                 if (elem is XmlElement)
                     result.Add((XmlElement)elem);
@@ -67,12 +67,12 @@ namespace HRG_BaseLibrary_2012
         }
 
         //按照nodename,在源节点树中查找节点
-        public XmlElement getElementByName(string nodeName, XmlElement element = null)
+        public XmlElement GetElementByName(string nodeName, XmlElement element = null)
         {
             //如果没有设定节点，则从根节点开始搜索
             if (element == null)
             {
-                element = root();
+                element = Root();
             }
 
             if (element.Name == nodeName)
@@ -82,7 +82,7 @@ namespace HRG_BaseLibrary_2012
             {
                 if (node is XmlElement)
                 {
-                    XmlElement temp = getElementByName(nodeName, (XmlElement)node);
+                    XmlElement temp = GetElementByName(nodeName, (XmlElement)node);
                     if (temp != null)
                         return temp;
                 }
@@ -90,10 +90,35 @@ namespace HRG_BaseLibrary_2012
             return null;
         }
 
-        //读取node节点innerText值
-        public string getElementValueByName(string nodeName, XmlElement element = null)
+        //按照nodename,在源节点树中查找节点
+        public List<XmlElement> GetElementsByName(string nodeName, XmlElement parent = null)
         {
-            XmlElement temp = getElementByName(nodeName, element);
+            List<XmlElement> result = new List<XmlElement>();
+            //如果没有设定节点，则从根节点开始搜索
+            if (parent == null)
+            {
+                parent = Root();
+            }
+
+            if (parent.Name == nodeName)
+                result.Add(parent);
+
+            foreach (XmlNode node in parent.ChildNodes)
+            {
+                if (node is XmlElement)
+                {
+                    List<XmlElement> tmp = GetElementsByName(nodeName, (XmlElement)node);
+                    if (tmp != null)
+                       result.AddRange(GetElementsByName(nodeName, (XmlElement)node));
+                }
+            }
+            return result;
+        }
+
+        //读取node节点innerText值
+        public string GetElementValueByName(string nodeName, XmlElement element = null)
+        {
+            XmlElement temp = GetElementByName(nodeName, element);
             if (temp == null)
                 return "";
             else
@@ -101,9 +126,9 @@ namespace HRG_BaseLibrary_2012
         }
 
         //读取node节点attribute的值
-        public string getAttributeByName(string nodeName, string attributeName, XmlElement element = null)
+        public string GetAttributeByName(string nodeName, string attributeName, XmlElement element = null)
         {
-            XmlElement temp = getElementByName(nodeName, element);
+            XmlElement temp = GetElementByName(nodeName, element);
             if (temp == null)
                 return "";
             else
@@ -111,13 +136,63 @@ namespace HRG_BaseLibrary_2012
         }
 
         //更新node节点信息
-        public void updateElementByName(string nodeName, string newValue, XmlElement element = null)
+        public void UpdateElementByName(string nodeName, string newValue, XmlElement element)
         {
-            XmlElement temp = getElementByName(nodeName, element);
+            XmlElement temp = GetElementByName(nodeName, element);
             temp.Value = newValue;
             doc.Save(_fileName);
         }
 
+        //更新节点属性值
+        public void UpdateElementAttribute(string name, string newValue, XmlElement element)
+        {
+            element.SetAttribute(name, newValue);
+            doc.Save(_fileName);
+        }
+
+        //更新所有同名节点的同一个属性
+        public void UpdateElementsAttribute(string elemName, string attrName, string newValue, XmlElement parent = null)
+        {
+            if (parent == null)
+                parent = Root();
+            foreach (XmlElement elem in GetElementsByName(elemName, parent))
+            {
+                elem.SetAttribute(attrName, newValue);
+            }
+            doc.Save(_fileName);
+
+        }
+
+        //添加子节点
+        public void AppendElement(string name, string innerText, XmlElement parent = null)
+        {
+            if (parent == null)
+                parent = Root();
+            XmlNode node = doc.CreateNode(XmlNodeType.Element, name, innerText);
+            parent.AppendChild(node);
+            doc.Save(_fileName);
+        }
+
+        //创建子元素,注意此元素未被保存于文件中
+        public XmlElement CreateNewElementNoSave(string name, XmlElement parent = null)
+        {
+            if (parent == null)
+                parent = Root();
+            XmlElement elem = doc.CreateElement(name);
+            parent.AppendChild(elem);
+            return elem;
+        }
+
+        //配合 CreateNewElement函数使用，添加属性到element
+        public void AddAttribute(string name, string value, XmlElement elem)
+        {
+            elem.SetAttribute(name, value);
+            doc.Save(_fileName);
+        }
+
+
     }
+
+
     #endregion
 }
