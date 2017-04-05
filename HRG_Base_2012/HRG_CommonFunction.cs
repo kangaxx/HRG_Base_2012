@@ -28,8 +28,20 @@ namespace HRG_BaseLibrary_2012
         public static string STRING_SQL_CONNECTION_TAG_PROVIDER = "Provider"; //数据库链接信息标签, oledb类型
         public static string STRING_HRG_WEBBROWSE_AUTOSTART_REGNAME = "HRG_browser"; //框架浏览器注册表编号
         public static string STRING_HRG_WEBBROWSE_AUTOSTART_REGNAME_2017 = "HRG_browser_2017"; //自行开发
+
+        public static string STRING_HRG_WINDOWS_SERVICE_BASE = "HitRobotBase";
+        public static string STRING_HRG_WINDOWS_SERVICE_VIDEO = "HitRobotVideo";
+        public static string STRING_HRG_WINDOWS_SERVICE_AUDIO = "HitRobotAudio";
+        public static string STRING_HRG_WINDOWS_SERVICE_KINECT = "HitRobotKinect";
+        public static string STRING_HRG_WINDOWS_SERVICE_CARDID = "HitRobotCardId";
+
+        public static string STRING_HRG_UPDATE_TYPE_NONE = "none";
+        public static string STRING_HRG_UPDATE_TYPE_PART = "part";
+
         public static int INT_HRG_WEBBROWSE_CONFIGFORM_HEIGHT = 200;
-        
+
+        public static string STRING_HRG_FTP_LASTEST_VERSION_PATH = "lastest"; //保存最新版本程序的ftp相对路径(在根目录下)
+
 
         public static int INT_SQL_PARAM_DIRECTION_INPUT = 1;  //输入参数类型
         public static int INT_SQL_PARAM_DIRECTION_OUTPUT = 2;  //输出参数类型
@@ -145,6 +157,21 @@ namespace HRG_BaseLibrary_2012
 
         }
 
+        #endregion
+
+        #region 安全类型转换
+        public static int String2Int32(string input, int exception = 0)
+        {
+            try
+            {
+                return Convert.ToInt32(input);
+            }
+            catch(Exception)
+            {
+                return exception;
+            }
+
+        }
         #endregion
     }
     #endregion

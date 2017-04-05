@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HRG_Base_2012", "HRG_Base_2
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Base2012_Base_UT", "..\Demo\Base2012_Base_UT_Proj\Base2012_Base_UT\Base2012_Base_UT.csproj", "{F7396BE0-35A4-4A1C-9793-AA55C03A1035}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UpdateManager", "..\..\svnCode\UpdateManager\UpdateManager\UpdateManager.csproj", "{BF00E69A-1A85-40B0-BF3C-08B8DD7F27DC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +21,10 @@ Global
 		{F7396BE0-35A4-4A1C-9793-AA55C03A1035}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F7396BE0-35A4-4A1C-9793-AA55C03A1035}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F7396BE0-35A4-4A1C-9793-AA55C03A1035}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF00E69A-1A85-40B0-BF3C-08B8DD7F27DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF00E69A-1A85-40B0-BF3C-08B8DD7F27DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF00E69A-1A85-40B0-BF3C-08B8DD7F27DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF00E69A-1A85-40B0-BF3C-08B8DD7F27DC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

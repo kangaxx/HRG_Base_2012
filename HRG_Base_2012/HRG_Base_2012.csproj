@@ -44,6 +44,7 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -54,6 +55,7 @@
   <ItemGroup>
     <Compile Include="HRG_CharacterHelper.cs" />
     <Compile Include="HRG_CommonFunction.cs" />
+    <Compile Include="HRG_DownloadHelper.cs" />
     <Compile Include="HRG_JoyManager.cs" />
     <Compile Include="HRG_LogHelper.cs" />
     <Compile Include="HRG_OfficeHelper.cs" />

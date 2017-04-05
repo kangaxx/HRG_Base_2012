@@ -8,6 +8,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.ServiceProcess;
 
 namespace HRG_BaseLibrary_2012
 {
@@ -534,6 +535,94 @@ namespace HRG_BaseLibrary_2012
             // Return calculated graphics path
             return graphicsPath;
         }
+    }
+#endregion
+
+    #region 文件夹操作
+    public class HRG_IO
+    {
+        //迁移文件夹
+        public static bool MoveDirectory(string sourceDirName, string destDirName)
+        {
+            if (!System.IO.Directory.Exists(sourceDirName))
+                return false;
+            try
+            {
+                System.IO.Directory.Move(sourceDirName, destDirName);
+                return true;
+            }
+            catch(Exception e)
+            {
+                return false;
+
+            }
+        }
+
+    }
+    #endregion
+
+#region windows服务相关操作
+    public class HRG_WindowsServiceHelper
+    {
+        /// <summary>  
+        /// 判断是否安装了某个服务  
+        /// </summary>  
+        /// <param name="serviceName"></param>  
+        /// <returns></returns>  
+        public static bool ISWindowsServiceInstalled(string serviceName)
+        {
+            try
+            {
+                ServiceController[] services = ServiceController.GetServices();
+
+
+                foreach (ServiceController service in services)
+                {
+                    if (service.ServiceName == serviceName)
+                    {
+                        return true;
+                    }
+                }
+
+
+                return false;
+            }
+            catch
+            { 
+                return false; 
+            }
+        }
+
+        public static void StopService(string serviceName)
+        {
+            if (!ISWindowsServiceInstalled(serviceName))
+                return;
+            using (ServiceController sc = new ServiceController(serviceName))
+            {
+                if (sc.Status ==  ServiceControllerStatus.Running)
+                {
+                    sc.Stop();
+                    sc.WaitForStatus(ServiceControllerStatus.Stopped);
+                    sc.Close();
+                }
+            }
+        }
+
+        public static void StartService(string serviceName)
+        {
+            if (!ISWindowsServiceInstalled(serviceName))
+                return;
+            using (ServiceController sc = new ServiceController(serviceName))
+            {
+                if (sc.Status == ServiceControllerStatus.Stopped)
+                {
+                    sc.Start();
+                    sc.WaitForStatus(ServiceControllerStatus.Running);
+                    sc.Close();
+                }
+            }
+        }
+
     }
 #endregion
 }
