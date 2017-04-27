@@ -304,6 +304,7 @@ namespace HRG_BaseLibrary_2012
         }
         #endregion
 
+
         #region  基本功能函数
 
 

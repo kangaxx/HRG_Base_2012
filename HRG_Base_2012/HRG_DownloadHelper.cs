@@ -18,6 +18,7 @@ namespace HRG_BaseLibrary_2012
 
     public interface IDownloader
     {
+        event EventHandler<int> OnBlockDownloaded; //每个block被下载后会触发事件。
 
         void CreateDirectory(string remoteDirectoryName);
 
@@ -105,15 +106,43 @@ namespace HRG_BaseLibrary_2012
         void Download(string saveFilePath, string downloadFileName);
 
         /// <summary>
-        /// 读取指定文件的文件内容
+        /// 读取xml文件中的版本相关信息
         /// </summary>
         /// <param name="fileName"></param>
         /// <returns></returns>
-        string ReadFile(string fileName);
+        string GetFilesInfo(string xmlFile, string name, string attribute);
+
+
     }
 
     public class FtpDownloader : IDownloader, IDisposable
     {
+
+        event EventHandler<int> PostDownloadEvent;
+
+        object objectLock = new Object();
+
+        event EventHandler<int> IDownloader.OnBlockDownloaded
+        {
+            add
+            {
+                lock (objectLock)
+                {
+                    PostDownloadEvent += value;
+                }
+            }
+            remove
+            {
+                lock (objectLock)
+                {
+                    PostDownloadEvent -= value;
+                }
+            }
+        }  
+
+        public delegate void OnBlockDownloadedHandler(object sender, int size);
+        public event OnBlockDownloadedHandler OnBlockDownloaded;
+
         /// <summary>  
         /// FTP请求对象  
         /// </summary>  
@@ -534,7 +563,7 @@ namespace HRG_BaseLibrary_2012
                 using (Stream ftpStream = resp.GetResponseStream())
                 {
                     long cl = resp.ContentLength;
-                    int bufferSize = 2048;
+                    int bufferSize = GlobalVariables.INT_HRG_UPDATE_DOWNLOAD_BUFFERSIZE; ;
                     int readCount;
                     byte[] buffer = new byte[bufferSize];
                     readCount = ftpStream.Read(buffer, 0, bufferSize);
@@ -542,34 +571,44 @@ namespace HRG_BaseLibrary_2012
                     {
                         outputStream.Write(buffer, 0, readCount);
                         readCount = ftpStream.Read(buffer, 0, bufferSize);
+
+                        EventHandler<int> handler = PostDownloadEvent;
+                        if (handler != null)
+                        {
+                            handler(this, readCount);
+                        }
+                        if (OnBlockDownloaded != null)
+                            OnBlockDownloaded(this, readCount);
                     }
                 }
             }
         }
 
-
-        public string ReadFile(string fileName)
+        //根据传入的参数读取xml文档信息
+        public string GetFilesInfo(string xmlFile, string name, string attribute)
         {
+            string result = null;
+
+            //从服务器上读出升级信息文件的内容，默认大小是2048
             FtpWebResponse resp = null;
             while (resp == null)
-                resp = Open(new Uri(ftpURI + fileName), WebRequestMethods.Ftp.DownloadFile);
+                resp = Open(new Uri(ftpURI + xmlFile), WebRequestMethods.Ftp.DownloadFile);
             using (Stream ftpStream = resp.GetResponseStream())
             {
                 long cl = resp.ContentLength;
-                int bufferSize = 32;
+                int bufferSize = GlobalVariables.INT_HRG_UPDATE_DOWNLOAD_BUFFERSIZE;
                 int readCount;
                 byte[] buffer = new byte[bufferSize];
-                readCount = ftpStream.Read(buffer, 0, bufferSize);
-                while (readCount > 0)
-                {
-                    readCount = ftpStream.Read(buffer, 0, bufferSize);
-                }
-                string result = System.Text.Encoding.Default.GetString(buffer).Trim();
+                readCount = ftpStream.Read(buffer, 0, bufferSize); //读取配置文件，正常一次即可读取完成。
+                HRG_XmlHelper xh = new HRG_XmlHelper(buffer);
+                result = xh.GetAttributeByName(name, attribute);
                 return Regex.Replace(result, @"[^\d\.]*", "");
             }
 
-        }
 
+ 
+        
+        }
 
     }
 
@@ -596,6 +635,10 @@ namespace HRG_BaseLibrary_2012
     public class HRG_DownloadHelper : IDisposable
     {
         IDownloader _downloader;
+
+        public delegate void OnBlockDownloadedHandler(object sender, int size);
+        public event OnBlockDownloadedHandler OnBlockDownloaded;
+
         public HRG_DownloadHelper(string ftpServerIP, string ftpRemotePath, string ftpUserID, string ftpPassword, DOWNLOADER_TYPE type = DOWNLOADER_TYPE.NET_FTP)
         {
             switch (type)
@@ -604,6 +647,14 @@ namespace HRG_BaseLibrary_2012
                     break;
 
             }
+
+            _downloader.OnBlockDownloaded +=_downloader_OnBlockDownloaded;
+        }
+
+        private void _downloader_OnBlockDownloaded(object sender, int size)
+        {
+            if (OnBlockDownloaded != null)
+                OnBlockDownloaded(this, size);
         }
 
         /// <summary>
@@ -629,11 +680,20 @@ namespace HRG_BaseLibrary_2012
         {
             foreach (FileStruct fs in _downloader.ListFiles())
             {
-                return _downloader.ReadFile("updateinfo.txt");
+                return _downloader.GetFilesInfo("updateinfo.txt", GlobalVariables.STRING_HRG_UPDATE_FILESINFO_XML_VERSION_NAME, GlobalVariables.STRING_HRG_UPDATE_FILESINFO_XML_VERSION_ATTRIBUTE);
             }
             return string.Empty;
         }
 
+        /// <summary>
+        /// 获取待下载总量
+        /// </summary>
+        /// <returns></returns>
+        public int GetSize()
+        {
+            return Convert.ToInt32(_downloader.GetFilesInfo("updateinfo.txt", GlobalVariables.STRING_HRG_UPDATE_FILESINFO_XML_SIZE_NAME, GlobalVariables.STRING_HRG_UPDATE_FILESINFO_XML_SIZE_ATTRIBUTE));
+
+        }
 
         //下载功能
         public void DownloadFile(string saveFilePath)

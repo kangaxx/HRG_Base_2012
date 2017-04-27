@@ -2,6 +2,6 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
     <StartAction>Program</StartAction>
-    <StartProgram>E:\code\vs2012\Demo\Base2012_Base_UT_Proj\Base2012_Base_UT\bin\Debug\Base2012_Base_UT.exe</StartProgram>
+    <StartProgram>E:\code\svnCode\UpdateManager\UpdateManager\bin\Debug\UpdateManager.exe</StartProgram>
   </PropertyGroup>
 </Project>

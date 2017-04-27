@@ -23,6 +23,12 @@ namespace HRG_BaseLibrary_2012
             doc.Load(_fileName);
         }
 
+        public HRG_XmlHelper(byte[] xml)
+        {
+            _fileName = "xml_from_stream.log";
+            doc.LoadXml(System.Text.Encoding.Default.GetString(xml));
+        }
+
         public HRG_XmlHelper()
         {
             //没有输入文件则直接在运行目录内寻找.xml后缀名的文件，找到的第一个xml会被作为当前信息集合
@@ -115,6 +121,7 @@ namespace HRG_BaseLibrary_2012
             return result;
         }
 
+
         //读取node节点innerText值
         public string GetElementValueByName(string nodeName, XmlElement element = null)
         {
@@ -189,6 +196,7 @@ namespace HRG_BaseLibrary_2012
             elem.SetAttribute(name, value);
             doc.Save(_fileName);
         }
+
 
 
     }

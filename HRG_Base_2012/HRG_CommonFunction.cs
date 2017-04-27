@@ -27,21 +27,33 @@ namespace HRG_BaseLibrary_2012
         public static string STRING_SQL_CONNECTION_TAG_DATASOURCE = "Data Source"; //数据库链接信息标签, oledb数据源
         public static string STRING_SQL_CONNECTION_TAG_PROVIDER = "Provider"; //数据库链接信息标签, oledb类型
         public static string STRING_HRG_WEBBROWSE_AUTOSTART_REGNAME = "HRG_browser"; //框架浏览器注册表编号
-        public static string STRING_HRG_WEBBROWSE_AUTOSTART_REGNAME_2017 = "HRG_browser_2017"; //自行开发
+        public static string STRING_HRG_WEBBROWSE_AUTOSTART_REGNAME_2017 = "HRG_browser_2017"; //框架浏览器注册表自动运行编号
+        public static string STRING_HRG_UPDATE_MANAGER_AUTOSTART_REGNAME = "HRG_UpdateManager"; //自动升级程序，开机运行注册项目
 
         public static string STRING_HRG_WINDOWS_SERVICE_BASE = "HitRobotBase";
         public static string STRING_HRG_WINDOWS_SERVICE_VIDEO = "HitRobotVideo";
         public static string STRING_HRG_WINDOWS_SERVICE_AUDIO = "HitRobotAudio";
         public static string STRING_HRG_WINDOWS_SERVICE_KINECT = "HitRobotKinect";
         public static string STRING_HRG_WINDOWS_SERVICE_CARDID = "HitRobotCardId";
+        public static string STRING_HRG_WINDOWS_SERVICE_IIS = "iisadmin";
+
+        public static string STRING_HRG_UPDATE_FILESINFO_XML_VERSION_NAME = "version";
+        public static string STRING_HRG_UPDATE_FILESINFO_XML_VERSION_ATTRIBUTE = "value";
+        public static string STRING_HRG_UPDATE_FILESINFO_XML_MD5_NAME = "md5";
+        public static string STRING_HRG_UPDATE_FILESINFO_XML_MD5_ATTRIBUTE = "value";
+        public static string STRING_HRG_UPDATE_FILESINFO_XML_SIZE_NAME = "size";
+        public static string STRING_HRG_UPDATE_FILESINFO_XML_SIZE_ATTRIBUTE = "value";
+
+        public static int INT_HRG_UPDATE_DOWNLOAD_BUFFERSIZE = 2048; //下载文件时，默认每次读取的长度（总的读取次数取决于文件大小）
 
         public static string STRING_HRG_UPDATE_TYPE_NONE = "none";
         public static string STRING_HRG_UPDATE_TYPE_PART = "part";
+        public static string STRING_HRG_UPDATE_TYPE_CHECKFILE = "check";
 
         public static int INT_HRG_WEBBROWSE_CONFIGFORM_HEIGHT = 200;
 
         public static string STRING_HRG_FTP_LASTEST_VERSION_PATH = "lastest"; //保存最新版本程序的ftp相对路径(在根目录下)
-
+        public static string STRING_HRG_UPDATE_INFO_FILE = "updateinfo.txt"; //版本升级包相关信息记录
 
         public static int INT_SQL_PARAM_DIRECTION_INPUT = 1;  //输入参数类型
         public static int INT_SQL_PARAM_DIRECTION_OUTPUT = 2;  //输出参数类型

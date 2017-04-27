@@ -9,6 +9,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.ServiceProcess;
+using System.IO;
+using ICSharpCode.SharpZipLib.Zip;
 
 namespace HRG_BaseLibrary_2012
 {
@@ -558,6 +560,77 @@ namespace HRG_BaseLibrary_2012
             }
         }
 
+        /// <summary>
+        /// 递归拷贝所有子目录。
+        /// </summary>
+        /// <param >源目录</param>
+        /// <param >目的目录</param>
+        public static void CopyDirectory(string sPath, string dPath)
+        {
+            string sRoot = sPath;
+            string dRoot = dPath;
+            string[] directories = System.IO.Directory.GetDirectories(sRoot);
+            if (!System.IO.Directory.Exists(dPath))
+                System.IO.Directory.CreateDirectory(dPath);
+            System.IO.DirectoryInfo dir = new System.IO.DirectoryInfo(sRoot);
+            System.IO.DirectoryInfo[] dirs = dir.GetDirectories();
+            CopyFile(dir, dRoot);
+            if (dirs.Length > 0)
+            {
+                foreach (System.IO.DirectoryInfo temDirectoryInfo in dirs)
+                {
+                    string destDirName = new StringBuilder(dRoot + "//" + temDirectoryInfo.Name).ToString();
+                    if (!System.IO.Directory.Exists(destDirName))
+                    {
+                        System.IO.Directory.CreateDirectory(destDirName);
+                    }
+                    CopyFile(temDirectoryInfo, destDirName);
+                    CopyDirectory(temDirectoryInfo.FullName, destDirName);
+                }
+            }
+
+        }
+
+
+        /// <summary>
+        /// 拷贝目录下的所有文件到目的目录。
+        /// </summary>
+        /// <param >源路径</param>
+        /// <param >目的路径</param>
+        private static void CopyFile(System.IO.DirectoryInfo path, string desPath)
+        {
+            string sourcePath = path.FullName;
+            System.IO.FileInfo[] files = path.GetFiles();
+            foreach (System.IO.FileInfo file in files)
+            {
+                string sourceFileFullName = file.FullName;
+                string destFileFullName = sourceFileFullName.Replace(sourcePath, desPath);
+                file.CopyTo(destFileFullName, true);
+            }
+        }
+
+        //获取文件MD5码
+        public static string GetMD5HashFromFile(string fileName)
+        {
+            try
+            {
+                FileStream file = new FileStream(fileName, FileMode.Open);
+                System.Security.Cryptography.MD5 md5 = new System.Security.Cryptography.MD5CryptoServiceProvider();
+                byte[] retVal = md5.ComputeHash(file);
+                file.Close();
+
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < retVal.Length; i++)
+                {
+                    sb.Append(retVal[i].ToString("x2"));
+                }
+                return sb.ToString();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("GetMD5HashFromFile() fail,error:" + ex.Message);
+            }
+        }
     }
     #endregion
 
@@ -621,6 +694,127 @@ namespace HRG_BaseLibrary_2012
                     sc.Close();
                 }
             }
+        }
+
+    }
+#endregion
+
+#region windows下压缩文件
+    public class HRG_Compress_Helper
+    {
+        public HRG_Compress_Helper()
+        {
+            //do nothing yet
+        }
+
+        
+        public static void Unrar(string sourceFile)
+        {
+            FileInfo fi = new FileInfo(sourceFile);
+            string destDir =  fi.Name.Replace(fi.Extension, "");
+            NUnrar.Archive.RarArchive.WriteToDirectory(sourceFile, new StringBuilder(fi.DirectoryName + "//" + destDir).ToString());
+        }
+
+        //将sourcefile 解压缩到destDir下
+        public static void Unrar(string sourceFile, string destDir)
+        {
+            NUnrar.Archive.RarArchive.WriteToDirectory(sourceFile, destDir);
+        }
+
+        public static void UnrarRescure(string sourceDir)
+        {
+        
+            foreach (FileInfo fi in new DirectoryInfo(sourceDir).GetFiles())
+            {
+                if (NUnrar.Archive.RarArchive.IsRarFile(fi))
+                {
+                    Unrar( fi.FullName);
+                }
+
+            }
+            foreach (DirectoryInfo di in new DirectoryInfo(sourceDir).GetDirectories())
+            {
+                UnrarRescure(di.FullName);
+
+            }
+
+        }
+
+        public static void Unzip(string sourceFile, string destDir = null)
+        {
+            if (String.IsNullOrEmpty(sourceFile))
+            {
+                throw new Exception("压缩文件不能为空！");
+            }
+            if (!File.Exists(sourceFile))
+            {
+                throw new System.IO.FileNotFoundException("压缩文件不存在！");
+            }
+            //解压文件夹为空时默认与压缩文件同一级目录下，跟压缩文件同名的文件夹  
+            if (String.IsNullOrEmpty(destDir))
+                destDir = sourceFile.Replace(Path.GetFileName(sourceFile),"");
+            if (!destDir.EndsWith("/"))
+                destDir += "/";
+            if (!Directory.Exists(destDir))
+                Directory.CreateDirectory(destDir);
+
+            using (ZipInputStream s = new ZipInputStream(File.OpenRead(sourceFile)))
+            {
+
+                ZipEntry theEntry;
+                while ((theEntry = s.GetNextEntry()) != null)
+                {
+                    string directoryName = Path.GetDirectoryName(theEntry.Name);
+                    string fileName = Path.GetFileName(theEntry.Name);
+                    if (directoryName.Length > 0)
+                    {
+                        Directory.CreateDirectory(destDir + directoryName);
+                    }
+                    if (!directoryName.EndsWith("/"))
+                        directoryName += "/";
+                    if (fileName != String.Empty)
+                    {
+                        using (FileStream streamWriter = File.Create(destDir + theEntry.Name))
+                        {
+
+                            int size = 2048;
+                            byte[] data = new byte[2048];
+                            while (true)
+                            {
+                                size = s.Read(data, 0, data.Length);
+                                if (size > 0)
+                                {
+                                    streamWriter.Write(data, 0, size);
+                                }
+                                else
+                                {
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+
+        public static void UnzipRescure(string sourceDir)
+        {
+
+            foreach (FileInfo fi in new DirectoryInfo(sourceDir).GetFiles())
+            {
+                if (Path.GetExtension(fi.Name).ToUpper() == ".ZIP")
+                {
+                    Unzip(fi.FullName);
+                }
+
+            }
+            foreach (DirectoryInfo di in new DirectoryInfo(sourceDir).GetDirectories())
+            {
+                UnzipRescure(di.FullName);
+
+            }
+
         }
 
     }
