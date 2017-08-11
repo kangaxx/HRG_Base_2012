@@ -50,6 +50,32 @@ namespace HRG_BaseLibrary_2012
 
         }
         #endregion
+
+        #region 判断某进程是否存在,返回存在进程的数量 0表示没有
+        public static int ProcessIsExists(string name)
+        {
+            return Process.GetProcessesByName(name).Length;
+        }
+        #endregion
+
+        #region 停止指定教程
+        public static void KillProcess(string name)
+        {
+            try
+            {
+                Process[] p = Process.GetProcessesByName(name);
+                foreach (Process tmp in p)
+                {
+                    tmp.Kill();
+                }
+            }
+            catch
+            {
+                //do nothing
+            }
+        }
+
+        #endregion
     }
 
     #region win鼠标钩子
@@ -819,4 +845,6 @@ namespace HRG_BaseLibrary_2012
 
     }
 #endregion
+
+
 }
