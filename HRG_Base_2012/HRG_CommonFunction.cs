@@ -24,6 +24,7 @@ namespace HRG_BaseLibrary_2012
         public static string STRING_SQL_CONNECTION_TAG_SERVER = "server"; //数据库链接信息标签，服务器
         public static string STRING_SQL_CONNECTION_TAG_PASSWORD = "password"; //数据库链接信息标签，密码
         public static string STRING_SQL_CONNECTION_TAG_DATABASE = "database"; //数据库链接信息标签, 数据库
+        public static string STRING_SQL_CONNECTION_TAG_Charset = "Charset"; //数据库链接信息标签, 数据库
         public static string STRING_SQL_CONNECTION_TAG_DATASOURCE = "Data Source"; //数据库链接信息标签, oledb数据源
         public static string STRING_SQL_CONNECTION_TAG_PROVIDER = "Provider"; //数据库链接信息标签, oledb类型
         public static string STRING_HRG_WEBBROWSE_AUTOSTART_REGNAME = "HRG_browser"; //框架浏览器注册表编号
@@ -152,6 +153,30 @@ namespace HRG_BaseLibrary_2012
 
             }
             return "";
+        }
+
+        //判断是否是整数
+        public static bool IsInteger(string strIn)
+        {
+            bool bolResult = true;
+            if (strIn == "")
+            {
+                bolResult = false;
+            }
+            else
+            {
+                foreach (char Char in strIn)
+                {
+                    if (char.IsNumber(Char))
+                        continue;
+                    else
+                    {
+                        bolResult = false;
+                        break;
+                    }
+                }
+            }
+            return bolResult;
         }
 
         #endregion
