@@ -61,9 +61,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="HRG_2DPhyxAlgo.cs" />
     <Compile Include="HRG_CharacterHelper.cs" />
     <Compile Include="HRG_CommonFunction.cs" />
     <Compile Include="HRG_DownloadHelper.cs" />
+    <Compile Include="HRG_DrawHelper.cs" />
     <Compile Include="HRG_JoyManager.cs" />
     <Compile Include="HRG_LogHelper.cs" />
     <Compile Include="HRG_OfficeHelper.cs" />
