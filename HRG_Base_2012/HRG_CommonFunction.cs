@@ -17,6 +17,12 @@ namespace HRG_BaseLibrary_2012
     #region 全局通用变量类
     public sealed class GlobalVariables
     {
+        public static int INT_HRG_PHYX_BLOCK_TYPE_TERRAN = 2; //2D平面碰撞算法， 地形阻碍
+        public static int INT_HRG_PHYX_BLOCK_TYPE_TEMP = 1; //2D平面碰撞算法， 临时阻碍
+        public static int INT_HRG_PHYX_BLOCK_TYPE_ROBOT = 4; //2D平面碰撞算法， 其他机器人阻碍
+        public static int INT_HRG_PHYX_BLOCK_TYPE_NONE = 0; //2D平面碰撞算法， 无阻碍
+        public static int INT_HRG_FLAGINTERVAL = 1000 / 25; //每帧时间间隔
+        public static int INT_HRG_FLAGNUM_PERSECOND = 25; //每秒帧数
         public static string STRING_SQLTYPE_FLAG = "sqltype"; //数据库类型标签名称
         public static string STRING_SQLTYPE_NAME_MYSQL = "mysql"; //数据库类型标签值， mysql
         public static string STRING_SQLTYPE_NAME_OLEDB = "oledb"; //数据库类型标签值， OLEDB
