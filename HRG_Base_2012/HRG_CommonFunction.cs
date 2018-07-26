@@ -23,6 +23,7 @@ namespace HRG_BaseLibrary_2012
         public static int INT_HRG_PHYX_BLOCK_TYPE_NONE = 0; //2D平面碰撞算法， 无阻碍
         public static int INT_HRG_FLAGINTERVAL = 1000 / 25; //每帧时间间隔
         public static int INT_HRG_FLAGNUM_PERSECOND = 25; //每秒帧数
+        public static int INT_HRG_ASDS_STATUS_MESSAGE = 1;  // 接收到机器人端发送的位置信息
         public static string STRING_SQLTYPE_FLAG = "sqltype"; //数据库类型标签名称
         public static string STRING_SQLTYPE_NAME_MYSQL = "mysql"; //数据库类型标签值， mysql
         public static string STRING_SQLTYPE_NAME_OLEDB = "oledb"; //数据库类型标签值， OLEDB
@@ -36,6 +37,10 @@ namespace HRG_BaseLibrary_2012
         public static string STRING_HRG_WEBBROWSE_AUTOSTART_REGNAME = "HRG_browser"; //框架浏览器注册表编号
         public static string STRING_HRG_WEBBROWSE_AUTOSTART_REGNAME_2017 = "HRG_browser_2017"; //框架浏览器注册表自动运行编号
         public static string STRING_HRG_UPDATE_MANAGER_AUTOSTART_REGNAME = "HRG_UpdateManager"; //自动升级程序，开机运行注册项目
+
+        public static string STRING_HRG_ASDSROBOT_ADJUST_X = "adjust_x";  //asds机器人配置文件项目
+        public static string STRING_HRG_ASDSROBOT_ADJUST_Y = "adjust_y";  //asds机器人配置文件项目
+        public static string STRING_HRG_ASDSROBOT_TIMES = "times";  //asds机器人配置文件项目
 
         public static string STRING_HRG_WINDOWS_SERVICE_BASE = "HitRobotBase";
         public static string STRING_HRG_WINDOWS_SERVICE_VIDEO = "HitRobotVideo";
@@ -280,9 +285,7 @@ namespace HRG_BaseLibrary_2012
     }
     #endregion
 
-    #region Log日志类
 
-    #endregion
 
 
 }

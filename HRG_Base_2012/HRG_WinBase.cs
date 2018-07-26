@@ -955,5 +955,20 @@ namespace HRG_BaseLibrary_2012
 
 
     }
-#endregion
+    #endregion
+
+    #region 对象化处理配置文件
+    public class HRG_ConfigToObject
+    {
+        private object _obj;
+        public HRG_ConfigToObject(object obj)
+        {
+            _obj = obj;
+        }
+
+        
+
+    }
+
+    #endregion
 }
